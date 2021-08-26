@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <img src="" id="rainbow" />
+    <script>
+      console.log("about to fetch a rainbow");
+      fetch("rainbow.png") // 1. fetch the rainbow
+        // 'fetch' returns a promise ie an asynchronous event that resolves when event is over ie data get retrieved
+        .then((Response) => {
+          // 2. Look at the resolved promise =>''then' handles Response ie the resloved promise
+          console.log(Response);
+          return Response.blob(); // convert the 'response' into a 'blob'* and triggers another promis
+        })
+        // we can chain promises, so we use 'then' again to handle that new promise
+        .then((Blob) => { //3. Complete reading the stream of data into a blob => // ''then' handles the new resolved promise
+          console.log(Blob);
+          document.getElementById('rainbow').src = URL.createObjectURL(Blob); // takes the data of the image coming as a blob and places it into hte source attribute of the image DOM element
+          // But won't work b/c this is not the file format that the <dom expects
+          // We have to use a function clled URL.createObjectURL() than makes the conversion into the format the DOM expects
+        });
+      //*Blob = objet comme un fichier = immuable, contient des données brutes, représentent des données qui ne sont pas dans un format JavaScript natif.
+    </script>
+  </body>
+</html>
